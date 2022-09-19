@@ -1,7 +1,7 @@
 fun main() {
     // зашифрованная строка
     val line = "F2p)v\"y233{0->c}ttelciFc"
-    // получение первой и второй половины сообщения (m=message)
+    // получение первой и второй половины сообщения (m=message) ok
     var m1 = line.subSequence(0, line.length / 2).toString()
     var m2 = line.subSequence(line.length / 2, line.length).toString()
     // расшифровка
