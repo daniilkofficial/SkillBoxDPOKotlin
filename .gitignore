@@ -75,5 +75,6 @@ outTmp/
 /kotlin-native/dist
 kotlin-ide/
 
-*/build/
-*/.gradle
+/*/.idea/
+/*/.gradle
+/*/build/
