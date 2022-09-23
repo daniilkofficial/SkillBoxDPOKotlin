@@ -2,7 +2,7 @@ import kotlin.random.Random
 
 open class Animal(val name: String, var energy: Int, var weight: Int, val maxAge: Int) {
     private var age = 0
-    protected open val isTooOld
+    open val isTooOld
         get() = age >= maxAge
 
     fun sleep() {
@@ -34,18 +34,20 @@ open class Animal(val name: String, var energy: Int, var weight: Int, val maxAge
     }
 
     open val typeName = "животное"
-    protected var newEnergy = (1..10).random()
-    protected var newWeight = (1..5).random()
+    open val symbol = "ое"
 
-    open fun birthChild() {
-        newEnergy = (1..10).random()
-        newWeight = (1..5).random()
-        println("Рожден (а, о) $typeName - $name: \n\tэнергия: $newEnergy, вес: $newWeight, макс. возраст: $maxAge")
+    open fun birthChild(): List<Int> {
+        val list = listOf(
+            (1..10).random(),
+            (1..5).random()
+        )
+        println("Рожден$symbol $typeName - $name: \n\tэнергия: ${list[0]}, вес: ${list[1]}, макс. возраст: $maxAge")
+        return list
     }
 
     open fun createChild(): Animal {
-        birthChild()
-        return Animal(name, newEnergy, newWeight, maxAge)
+        val list = birthChild()
+        return Animal(name, list[0], list[1], maxAge)
     }
 
     private fun tryIncrementAge() {
@@ -54,5 +56,5 @@ open class Animal(val name: String, var energy: Int, var weight: Int, val maxAge
 
     fun getAge(): Int = age
 
-    protected fun isDo(): Boolean = !isTooOld && weight != 0 && energy != 0
+    private fun isDo(): Boolean = !isTooOld && weight != 0 && energy != 0
 }
