@@ -1,86 +1,73 @@
-import base.BankCard
 import base.CreditCard
 import base.DebitCard
 import bonus.CreditCardBonus
 import bonus.DebitCardBonus
 
 fun main() {
-    run()
+    for (i in 0..3) {
+        createCard(i)
+    }
 }
 
-fun run() {
-    println("________________")
-    println("Дебетовая карта")
-    useDebitCard()
-    println("________________")
+fun createCard(n: Int) {
+    when (n) {
+        0 -> {
+            println("________________")
+            println("Дебетовая карта")
+            useDebitCard()
+        }
 
-    println("Кредитная карта")
-    useCreditCard()
-    println("________________")
+        1 -> {
+            println("Кредитная карта")
+            useCreditCard()
+        }
 
-    println("Дебетовая карта с бонусами")
-    useDebitCardBonus()
-    println("________________")
+        2 -> {
+            println("Дебетовая карта с бонусами")
+            useDebitCardBonus()
+        }
 
-    println("Кредитная карта с бонусами")
-    useCreditCardBonus()
+        3 -> {
+            println("Кредитная карта с бонусами")
+            useCreditCardBonus()
+        }
+    }
+
     println("________________")
 }
 
 fun useDebitCard() {
     val card = DebitCard(100)
     card.infoBalance()
-
-    isPay(card, 120)
-    card.infoBalance()
-
-    isPay(card, 40)
-    card.infoBalance()
-
+    card.pay(120)
+    card.pay(40)
     card.deposit(100)
-    card.infoBalance()
 }
 
 fun useCreditCard() {
     val card = CreditCard(100, 8000, 10_000)
-
     card.infoBalance()
     card.infoAccessBalance()
 
-    isPay(card, 100)
-    card.infoAccessBalance()
-
-    isPay(card, 2100)
-    card.infoAccessBalance()
+    card.pay(100)
+    card.pay(2100)
 
     card.deposit(5_200)
-    card.infoAccessBalance()
-
     card.deposit(5_200)
-    card.infoAccessBalance()
 
-    isPay(card, 20_400)
-    card.infoAccessBalance()
-
-    isPay(card, 14_000)
-    card.infoAccessBalance()
+    card.pay(20_400)
+    card.pay(14_000)
 
     card.deposit(4_000)
-    card.infoAccessBalance()
-
-    isPay(card, 1_000)
-    card.infoAccessBalance()
+    card.pay(1_000)
 }
 
 fun useDebitCardBonus() {
     val card = DebitCardBonus(8_000, 1.0, 5.0, 5000, 0.05)
-    card.infoBalance()
-
-    isPay(card, 6_000)
     card.infoAccessBalance()
 
+    card.pay(6_000)
     card.deposit(1_000)
-    card.infoAccessBalance()
 }
 
 fun useCreditCardBonus() {
@@ -90,22 +77,9 @@ fun useCreditCardBonus() {
     )
     card.infoAccessBalance()
 
-    isPay(card, 1_000)
-    card.infoAccessBalance()
-
-    isPay(card, 2200)
-    card.infoAccessBalance()
-
+    card.pay(1_000)
+    card.pay(2_200)
     card.deposit(6_300)
-    card.infoAccessBalance()
-
-    isPay(card, 1_000)
-    card.infoAccessBalance()
+    card.pay(1_000)
 }
 
-fun isPay(bankCard: BankCard, money: Int) {
-    if (bankCard.pay(money))
-        println("Оплата на $money")
-    else
-        println("Недостаточно средств на снятие $money")
-}

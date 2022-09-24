@@ -8,9 +8,10 @@ open class DebitCard(
         balance += money
         depositBonus(money)
         println("Пополнено на $money")
+        infoAccessBalance()
     }
 
-    override fun pay(money: Int): Boolean {
+    override fun toPay(money: Int): Boolean {
         return if (balance >= money) {
             balance -= money
             payBonus(money)

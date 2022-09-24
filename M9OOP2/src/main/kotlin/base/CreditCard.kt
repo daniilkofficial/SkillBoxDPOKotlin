@@ -21,16 +21,17 @@ open class CreditCard(
         }
         depositBonus(money)
         println("Пополнено на $money")
+        infoAccessBalance()
     }
 
     // При оплате сначала списываются собственные средства, затем кредитные.
-    override fun pay(money: Int): Boolean {
+    override fun toPay(money: Int): Boolean {
         return if (balance > 0 || creditBalance > 0) {
-            if (balance - money >= 0) {
+            if (balance - money >= 0) { // оплата только балансом
                 balance -= money
                 payBonus(money)
                 true
-            } else if ((balance + creditBalance) - money >= 0) {
+            } else if ((balance + creditBalance) - money >= 0) { // оплата балансом и кредитом
                 val otherMoney = money - balance
                 balance = 0
                 creditBalance -= otherMoney
