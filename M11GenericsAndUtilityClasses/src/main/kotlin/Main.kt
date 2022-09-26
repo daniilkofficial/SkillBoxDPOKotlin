@@ -1,3 +1,6 @@
+import battle.Battle
+import battle.BattleState
+
 /*
 Структура:
 + Расширение Int.isChance (функция-расширение) - выше шанс лучше вероятность
@@ -19,9 +22,9 @@
 Генерал, Капитан, Лейтенант и Солдат (ГКЛС)
 
 - battle:
-Team (class) - команды
-BattleState (sealed-class) - состояние сражения
-Battle (class) - битва, логика сражения
++ Team (class) - команды
++ BattleState (sealed-class) - состояние сражения
++ Battle (class) - битва, логика сражения
  */
 
 fun main() {
@@ -33,6 +36,34 @@ fun main() {
         numWarrior = readLine()?.toIntOrNull()
     }
 
+    println("Начало боя!")
+    play(Battle(numWarrior))
+}
+
+fun play(battle: Battle) {
+    while (true) { // вечный цикл до конца боя
+        when (val battleState = battle.getBattleState()) { // состояние боя
+            is BattleState.Progress -> { // при прогрессе выводит прогресс боя и продолжаем
+                println(battleState.toString())
+                battle.run()
+            }
+
+            BattleState.FirsTeamWin -> {
+                println("Первая команда победила")
+                break
+            }
+
+            BattleState.SecondTeamWin -> {
+                println("Вторая команда победила")
+                break
+            }
+
+            BattleState.Nix -> {
+                println("Ничья среди команд")
+                break
+            }
+        }
+    }
 }
 
 // число текущее больше генерируемого (чем выше шанс, тем выше вероятность до 100%)
