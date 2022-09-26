@@ -1,6 +1,6 @@
 package weapon
 
-class StackGeneric<T>() {
+class Stack<T>() {
     /*
     Коллекция на основе last in first out — последний вошёл, первый вышел.
     Цель: магазин патронов
