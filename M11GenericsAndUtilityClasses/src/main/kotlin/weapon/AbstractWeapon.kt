@@ -10,14 +10,12 @@ abstract class AbstractWeapon { // оружие
 
     private fun createAmmo(): Ammo = ammoType // создать патрон
 
-
     fun reload() { // перезарядка
         if (isMagazineEmpty) {
             for (i in 0 until magazineSize) // до макс размера
                 ammoMagazine.push(createAmmo()) // заполнение патроном
         }
     }
-
 
     fun shooting(): List<Ammo?> { // стрельба (возвращает список патронов до типа стрельбы)
         val shootsAmmo = mutableListOf<Ammo?>()

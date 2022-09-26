@@ -10,11 +10,13 @@
 + Weapons (object) - реализованные оружия, возврат object (анонимных классов) AbstractWeapon
 
 - warrior
-Warrior (interface) - статус воина (шанс сбежать, атака и получить урон)
-AbstractWarrior (abstract class) - абстрактный воин от Warrior для warrior_real
++ Warrior (interface) - статус воина (шанс сбежать, атака и получить урон)
++ AbstractWarrior (abstract class) - абстрактный воин от Warrior для warrior_real
+умер, сбежать, хп (здоровье и отображение), точность, оружие, атака и урон
 
 - warrior_real
-Classes от AbstractWarrior (class). Наследники: General, Captain, Soldier
++ Classes от AbstractWarrior (class). Наследники: General, Captain, Lieutenant и Soldier
+Генерал, Капитан, Лейтенант и Солдат (ГКЛС)
 
 - battle:
 Team (class) - команды
