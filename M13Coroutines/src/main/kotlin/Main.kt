@@ -1,6 +1,8 @@
 import kotlinx.coroutines.*
 import java.math.BigInteger
 import javax.security.auth.callback.Callback
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 fun main() = runBlocking {
@@ -73,18 +75,24 @@ fun main() = runBlocking {
 
 }
 
-suspend fun suspendMagicNumber() {
-    suspendCoroutine<BigInteger> { continuation -> // продолжение
-        magicNumber(object : Callback {
-            fun onSuccess(value: BigInteger) {
-                println("number $value")
-            }
-        })
-    }
-}
+//suspend fun suspendMagicNumber() {
+//    suspendCoroutine<BigInteger> { continuation -> // продолжение
+//        magicNumber(object : Callback {
+//           override fun onSuccess(value: BigInteger) {
+//                println("number $value")
+//                continuation.resume(value)
+//            }
+//
+//            override fun onFailure(value: BigInteger) {
+//                println("number $value")
+//                continuation.resumeWithException(error)
+//            }
+//        })
+//    }
+//}
 
 fun magicNumber(callback: Callback) {
-    TODO("Not yet implemented")
+
 }
 
 suspend fun doSomeWork() {
