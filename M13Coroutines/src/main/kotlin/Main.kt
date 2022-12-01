@@ -1,12 +1,69 @@
 import kotlinx.coroutines.*
 import java.math.BigInteger
-import javax.security.auth.callback.Callback
+import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlin.random.Random
+import kotlin.random.asJavaRandom
+import kotlin.system.measureTimeMillis
 
-fun main() = runBlocking {
+fun main() {
+    runBlocking {
+        val scope = CoroutineScope(Dispatchers.Default)
+        scope.launch {
+            println("Start runBlocking...")
+            suspendMagicNumber()
+            println("Finish runBlocking")
+        }
+    }
+}
+suspend fun suspendMagicNumber() {
+    suspendCoroutine<BigInteger> { continuation -> // продолжение
+        magicNumber(object : Callback {
+            override fun onSuccess(value: BigInteger) {
+                println("number $value")
+                continuation.resume(value)
+            }
+
+            override fun onFailure(error: Throwable) {
+                println("number $error")
+                continuation.resumeWithException(error)
+            }
+
+        })
+    }
+}
+
+fun magicNumber(callback: Callback) {
+    thread {
+        println("Calculation start: ${Thread.currentThread().name}")
+        val number: BigInteger
+        val time = measureTimeMillis {
+            number = BigInteger.probablePrime(4000, Random.asJavaRandom())
+        }
+        if (time > 2000)
+            callback.onFailure(Throwable(""))
+        else
+            callback.onSuccess(number)
+    }
+}
+
+interface Callback {
+    fun onSuccess(value: BigInteger)
+    fun onFailure(error: Throwable)
+}
+
     /*
+    1. Создайте объект-синглтон Fibonacci.
+    2. В этом объекте создайте suspend функцию take. Функция принимает на вход число — номер в последовательности
+    Фибоначчи — и возвращает рассчитанное число типа BigInteger. Для создания числа BigInteger используйте
+    функцию-расширение toBigInteger.
+    3. Запустите две или более корутин в функции main. Используйте для этого функцию runBlocking
+    и билдер launch. Внутри каждой корутины вызовите функцию take и выведите результат в консоль.
+    4. Рассчитайте несколько чисел Фибоначчи в порядке возрастания, затем в порядке убывания.
+    Запустите программу несколько раз и проанализируйте порядок работы корутин.
+
     https://kotlinlang.org/api/kotlinx.coroutines/
     CoroutineScope - объект, который отслеживает выполняемые внутри него корутины
     Все корутины выполняются внутри какого-нибудь CoroutineScope
@@ -48,23 +105,21 @@ fun main() = runBlocking {
     - Отмена корутины необязательно приводит к отмене всего CoroutineScope
 
     Continuation (интерфейс)
-
-
      */
 
 
 //    launch {
 //        printWorld()
 //    }
-//
+
 //    launch {
 //        printDots()
 //    }
-//
+
 //    val scope1 = CoroutineScope(Job() + Dispatchers.Default)
 //    val scope2 = CoroutineScope(Job())
 //    val scope3 = CoroutineScope(Dispatchers.Default)
-//
+
 //    val scope = CoroutineScope(Dispatchers.Default)
 //    scope.launch {
 //        println("Start runBlocking...")
@@ -73,47 +128,28 @@ fun main() = runBlocking {
 //    }
 
 
-}
 
-//suspend fun suspendMagicNumber() {
-//    suspendCoroutine<BigInteger> { continuation -> // продолжение
-//        magicNumber(object : Callback {
-//           override fun onSuccess(value: BigInteger) {
-//                println("number $value")
-//                continuation.resume(value)
-//            }
-//
-//            override fun onFailure(value: BigInteger) {
-//                println("number $value")
-//                continuation.resumeWithException(error)
-//            }
-//        })
-//    }
+
+
+//suspend fun doSomeWork() {
+//    println("Start work...")
+//    delay(3000)
+//    println("Finish work...")
 //}
-
-fun magicNumber(callback: Callback) {
-
-}
-
-suspend fun doSomeWork() {
-    println("Start work...")
-    delay(3000)
-    println("Finish work...")
-}
-
-fun data(a: Int): String {
-    return "$a ok"
-}
-
-suspend fun printWorld() {
-    delay(2000)
-    println(" world! ")
-}
-
-suspend fun printDots() {
-    for (i in 1..500)
-        if (i % 130 == 0)
-            println(".$i")
-        else
-            print(".$i")
-}
+//
+//fun data(a: Int): String {
+//    return "$a ok"
+//}
+//
+//suspend fun printWorld() {
+//    delay(2000)
+//    println(" world! ")
+//}
+//
+//suspend fun printDots() {
+//    for (i in 1..500)
+//        if (i % 130 == 0)
+//            println(".$i")
+//        else
+//            print(".$i")
+//}
