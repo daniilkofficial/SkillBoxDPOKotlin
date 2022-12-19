@@ -17,7 +17,7 @@ class Main2 {
             }
         }
 
-        private fun updateProgressBar() {
+          fun updateProgressBar() {
             thread {
                 while (progress < 100) {
                     println(getProgressString())
