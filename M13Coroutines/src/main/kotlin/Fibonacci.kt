@@ -46,6 +46,7 @@ class Fibonacci {
             println("Неверно, ожидалось: ${arrayFibonacci[n]}")
         }
 
+        // yield()
         currentCoroutineContext().isActive
         return result.toBigInteger()
     }
