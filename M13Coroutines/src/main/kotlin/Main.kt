@@ -6,6 +6,8 @@ fun main() {
     runBlocking {
         val job1 = launch {
             fibonacci.take(5)
+            currentCoroutineContext().isActive
+            // yield()
         }
         withTimeout(3000) {
             job1.cancel()
