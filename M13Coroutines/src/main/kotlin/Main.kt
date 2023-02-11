@@ -1,14 +1,19 @@
 import kotlinx.coroutines.*
 
+
 fun main() {
     val fibonacci = Fibonacci()
     runBlocking {
-        withTimeout(1000) {
-            launch {
-                println("Launch 1")
-                fibonacci.take(5)
+        try {
+            withTimeout(1000) {
+                launch {
+                    println("Launch 1")
+                    fibonacci.take(100)
 //                currentCoroutineContext().isActive
+                }
             }
+        } catch (e: TimeoutCancellationException) {
+            println("Превышено время вычисления")
         }
 
         val job2 = launch {
