@@ -7,7 +7,7 @@ class Fibonacci {
     suspend fun take(n: Int): BigInteger {
         val result = fibonacci(n)
         delay(100)
-        println(result)
+//        println(result)
         return result.toBigInteger()
     }
 
