@@ -1,6 +1,6 @@
 import kotlinx.coroutines.*
 
-val scope = CoroutineScope(Job() + Dispatchers.Default)
+val scope = CoroutineScope(Job())
 
 fun main() {
     val fibonacci = Fibonacci()
