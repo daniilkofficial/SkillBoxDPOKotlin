@@ -2,42 +2,38 @@ import kotlinx.coroutines.*
 
 val scope = CoroutineScope(Job())
 
-fun main() {
+suspend fun main() {
     val fibonacci = Fibonacci()
     runBlocking {
-        try {
-            val job1 = scope.launch {
+        val job1 = scope.launch {
+            try {
                 withTimeout(1000) {
                     println("Launch 1: ${fibonacci.take(120)}")
                 }
+            } catch (e: TimeoutCancellationException) {
+                println("Превышено время вычисления")
             }
-            job1.join()
-        } catch (e: TimeoutCancellationException) {
-            println("Превышено время вычисления")
         }
-
-
-        val job2 = scope.launch {
-            println("Launch 2: ${fibonacci.take(10)}")
-        }
-        yield()
-        job2.cancel()
-        job2.join()
-        yield()
-
-        val job3 = scope.launch {
-            println("Launch 3: ${fibonacci.take(35)}")
-        }
-        job3.join()
-
-
-        scope.launch {
-            while (true)
-                print(".")
-        }
-
-
+        job1.join()
     }
-}
 
+
+    val job2 = scope.launch {
+        val n = 40
+        if (n >= 10)
+            cancel()
+        println("Launch 2: ${fibonacci.take(n)}")
+    }
+
+    val job3 = scope.launch {
+        println("Launch 3: ${fibonacci.take(35)}")
+    }
+    job3.join()
+
+    scope.launch {
+        while (scope.coroutineContext.isActive)
+            print(".")
+    }
+
+}
 
